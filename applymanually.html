@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Post a Job</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+    .container { max-width: 800px; background: white; padding: 30px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    textarea, input, select { width: 100%; padding: 10px; margin-top: 5px; }
+    .btns { margin-top: 20px; display: flex; justify-content: space-between; }
+    .location-container { margin-top: 10px; }
+    .location-field { display: flex; gap: 10px; margin-bottom: 10px; }
+    .location-field select { flex: 1; }
+    .tag-box { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag-box option[selected] { background: #f0f0f0; }
+    .btns {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn.post {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn.post:hover {
+  background-color: #45a049;
+}
+
+.btn.post-add {
+  background-color: #2196F3;
+  color: white;
+}
+
+.btn.post-add:hover {
+  background-color: #1976d2;
+}
+
+.btn.cancel {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn.cancel:hover {
+  background-color: #d32f2f;
+}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Post a Job</h2>
+  <form id="jobForm">
+    <label>Job Title</label>
+    <input type="text" name="jobTitle" required>
+
+    <label>Job Description</label>
+    <textarea name="jobDescription" rows="5" required></textarea>
+
+    <label>Experience (in years)</label>
+    <input type="number" name="experience" min="0">
+
+    <label>Salary Range</label>
+    <input type="range" name="salary" id="salaryRange" min="10000" max="100000" step="1000" oninput="salaryOutput.value = this.value">
+    <output id="salaryOutput">10000</output>
+
+    <label for="location">Job Location</label>
+<select id="location" name="location" required>
+  <option value="">-- Select Location --</option>
+  <option value="Mumbai">Mumbai</option>
+  <option value="Delhi">Delhi</option>
+  <option value="Bangalore">Bangalore</option>
+  <option value="Hyderabad">Hyderabad</option>
+  <option value="Chennai">Chennai</option>
+</select>
+
+
+
+
+    <label>Targeting</label>
+<select name="targeting" id="targetingSelect">
+  <option value="">-- Select --</option>
+  <option value="Freshers">Freshers</option>
+  <option value="Experienced">Experienced</option>
+  <option value="Tech Background">Tech Background</option>
+  <option value="MBA">MBA</option>
+  <option value="Interns">Interns</option>
+  <option value="Remote Workers">Remote Workers</option>
+</select>
+
+
+    <label>Graduating Year</label>
+    <input type="number" name="gradYear" min="2000" max="2030">
+
+    <label>Course Type</label>
+    <select name="courseType">
+      <option value="B.Tech">B.Tech</option>
+      <option value="M.Tech">M.Tech</option>
+      <option value="B.Sc">B.Sc</option>
+      <option value="MBA">MBA</option>
+    </select>
+
+    <label>Preferred Candidates</label>
+    <select name="preferred">
+      <option value="">-- Select --</option>
+      <option value="Women">Women</option>
+      <option value="PWD">PWD</option>
+      <option value="Both">Both</option>
+    </select>
+
+    <div class="btns">
+  <button class="btn post" type="submit" onclick="submitForm(event, false)">Post</button>
+  <button class="btn post-add" type="submit" onclick="submitForm(event, true)">Post & Add Another</button>
+  <button class="btn cancel" type="button" onclick="window.location.href='myjobs.html'">Cancel</button>
+   </div>
+
+  </form>
+</div>
+
+
+  <script>
+  function submitForm(e, addAnother) {
+    e.preventDefault();
+    const form = document.getElementById('jobForm');
+    const formData = new FormData(form);
+
+    const location = document.getElementById('location').value;
+
+    const data = {
+      jobTitle: formData.get('jobTitle'),
+      jobDescription: formData.get('jobDescription'),
+      experience: formData.get('experience'),
+      salary: formData.get('salary'),
+      location: location,
+      targeting: formData.get('targeting'),
+      gradYear: formData.get('gradYear'),
+      courseType: formData.get('courseType'),
+      preferred: formData.get('preferred'),
+      id: Date.now()
+    };
+
+    // Save locally
+    const existing = JSON.parse(localStorage.getItem('jobs') || '[]');
+    existing.push(data);
+    localStorage.setItem('jobs', JSON.stringify(existing));
+
+    // Send to n8n webhook
+    fetch('https://tanisha02sinha.app.n8n.cloud/webhook/applymanually', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to submit to n8n");
+      return res.json().catch(() => ({})); // if no JSON, still resolve
+    })
+    .then(() => {
+      if (addAnother) {
+        form.reset();
+        document.getElementById('salaryOutput').value = 10000;
+      } else {
+        window.location.href = 'myjobs.html';
+      }
+    })
+    .catch(err => {
+      alert("Job saved locally, but failed to send to LinkedIn via n8n.");
+      console.error(err);
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Job Post</title>
+</head>
+<body>
+    <h2>Job Post Generator</h2>
+
+    <!-- Form to generate the job post -->
+    <form method="POST" action="/generate">
+        <label for="title">Job Title:</label><br>
+        <input type="text" id="title" name="title" value="{{ title|default('') }}" required><br><br>
+        
+        <label for="description">Short Description:</label><br>
+        <textarea id="description" name="description" required>{{ description|default('') }}</textarea><br><br>
+
+        <button type="submit">Create Job</button>
+    </form>
+
+    <!-- Display a success message and show the Post to LinkedIn button -->
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+
+        <form action="/linked" method="POST">
+            <input type="hidden" name="title" value="{{ title }}">
+            <input type="hidden" name="description" value="{{ description }}">
+            <button type="submit">Post on LinkedIn</button>
+        </form>
+    {% endif %}
+</body>
+</html>
