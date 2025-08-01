@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Application Form</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e5e7eb; /* A light gray background */
+        }
+        .file-upload-box {
+            border: 2px dashed #d1d5db; /* Gray dashed border */
+            background-color: #f9fafb; /* Lighter background for the upload area */
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .file-upload-box:hover {
+            background-color: #eff6ff; /* Light blue on hover */
+            border-color: #93c5fd; /* Lighter blue border on hover */
+        }
+        .message-box {
+            display: none;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 flex items-center justify-center min-h-screen">
+
+    <div class="max-w-4xl w-full bg-white rounded-xl shadow-2xl p-8 space-y-8">
+        <!-- Header Section -->
+        <div class="text-center">
+            <h1 class="text-4xl font-extrabold text-gray-800">Job Application Form</h1>
+            <p class="mt-2 text-lg text-gray-600">Please Fill Out the Form Below to Submit Your Job Application!</p>
+        </div>
+        
+        <!-- Message box for alerts -->
+        <div id="message-box" class="message-box p-4 rounded-md text-center text-white font-medium"></div>
+
+        <!-- Form Section -->
+        <form id="application-form" class="space-y-6">
+
+            <!-- Personal Information Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Name Field -->
+                <div>
+                    <label for="first-name" class="block text-sm font-medium text-gray-700">Name <span class="text-red-500">*</span></label>
+                    <div class="mt-1 flex flex-wrap gap-4">
+                        <div class="flex-1 min-w-[150px]">
+                            <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 px-3 py-2 border" required>
+                            <p class="mt-1 text-xs text-gray-500">First Name</p>
+                        </div>
+                        <div class="flex-1 min-w-[150px]">
+                            <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 px-3 py-2 border" required>
+                            <p class="mt-1 text-xs text-gray-500">Last Name</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">E-mail <span class="text-red-500">*</span></label>
+                    <div class="mt-1">
+                        <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 px-3 py-2 border" placeholder="ex: myname@example.com" required>
+                        <p class="mt-1 text-xs text-gray-500">example@example.com</p>
+                    </div>
+                </div>
+
+                <!-- Phone Number Field -->
+                <div>
+                    <label for="phone-number" class="block text-sm font-medium text-gray-700">Phone Number <span class="text-red-500">*</span></label>
+                    <div class="mt-1">
+                        <input id="phone-number" name="phone-number" type="tel" autocomplete="tel" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 px-3 py-2 border" placeholder="(000) 000-0000" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Job Specifics Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Applied Position Field -->
+                <div>
+                    <label for="applied-position" class="block text-sm font-medium text-gray-700">Applied Position</label>
+                    <div class="mt-1">
+                        <input type="text" name="applied-position" id="applied-position" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 px-3 py-2 border">
+                    </div>
+                </div>
+
+                <!-- Earliest Possible Start Date Field -->
+                <div>
+                    <label for="start-date" class="block text-sm font-medium text-gray-700">Earliest Possible Start Date</label>
+                    <div class="mt-1">
+                        <input type="date" name="start-date" id="start-date" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 px-3 py-2 border">
+                        <p class="mt-1 text-xs text-gray-500">Date</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cover Letter Section -->
+            <div>
+                <label for="cover-letter" class="block text-sm font-medium text-gray-700">Cover Letter</label>
+                <div class="mt-1">
+                    <textarea id="cover-letter" name="cover-letter" rows="5" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 px-3 py-2 border" placeholder="Please do not exceed 200 words."></textarea>
+                </div>
+            </div>
+
+            <!-- File Upload Sections -->
+            <div>
+                <label for="resume-upload" class="block text-sm font-medium text-gray-700">Upload Resume <span class="text-red-500">*</span></label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 file-upload-box rounded-md transition-all duration-300">
+                    <div class="space-y-1 text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m-8-4h.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-gray-600">
+                            <label for="resume-upload" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2">
+                                <span>Upload a File</span>
+                                <input id="resume-upload" name="resume-upload" type="file" class="sr-only" accept=".pdf" required>
+                            </label>
+                            <p class="pl-1">Drag and drop files here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="other-docs-upload" class="block text-sm font-medium text-gray-700">Any Other Documents to Upload</label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 file-upload-box rounded-md transition-all duration-300">
+                    <div class="space-y-1 text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m-8-4h.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-gray-600">
+                            <label for="other-docs-upload" class="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2">
+                                <span>Upload a File</span>
+                                <input id="other-docs-upload" name="other-docs-upload" type="file" class="sr-only">
+                            </label>
+                            <p class="pl-1">Drag and drop files here</p>
+                        </div>
+                        <p class="text-xs text-gray-500">You can share certificates, diplomas etc.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apply Button -->
+            <div class="flex justify-end">
+                <button type="submit" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-xl font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-300">
+                    Apply
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('application-form');
+        const resumeInput = document.getElementById('resume-upload');
+        const messageBox = document.getElementById('message-box');
+
+        // Function to display a message
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            if (type === 'success') {
+                messageBox.className = 'bg-green-500 p-4 rounded-md text-center text-white font-medium';
+            } else {
+                messageBox.className = 'bg-red-500 p-4 rounded-md text-center text-white font-medium';
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Client-side validation for PDF file
+            const file = resumeInput.files[0];
+            if (file && file.type !== 'application/pdf') {
+                showMessage("Please upload a PDF file for your resume.", 'error');
+                return;
+            }
+
+            // Create a new application object from form data
+            const formData = new FormData(form);
+            const newApplication = {
+                firstName: formData.get('first-name'),
+                lastName: formData.get('last-name'),
+                email: formData.get('email'),
+                phoneNumber: formData.get('phone-number'),
+                appliedPosition: formData.get('applied-position'),
+                startDate: formData.get('start-date'),
+                coverLetter: formData.get('cover-letter'),
+                resumeFileName: file ? file.name : 'N/A',
+                otherDocsFileName: formData.get('other-docs-upload') ? formData.get('other-docs-upload').name : 'N/A',
+                submissionDate: new Date().toLocaleDateString()
+            };
+
+            // Get existing applications or initialize an empty array
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            applications.push(newApplication);
+            
+            // Save the updated array back to local storage
+            localStorage.setItem('jobApplications', JSON.stringify(applications));
+
+            // Show success message and redirect
+            showMessage("Application submitted successfully! Redirecting...", 'success');
+            setTimeout(() => {
+                window.location.href = 'applications.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
